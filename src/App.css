@@ -1,42 +1,165 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+/*#region Nav Bar Things*/
+
+#Banner {
+    height: 120px;
+    background-image: url("assets/Banner.png");
+    background-size: cover;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#HeaderPadding {
+    margin-left: 40px;
+    padding: 12px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#BodyPadding {
+    margin: 40px 40px 40px 40px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#NamePlate {
+    color: white;
+}
+.ProfileDescriptor{
+    color:lightgrey;
+}
+.ProfileDescriptor:first-child:before {
+    content: "";
+    padding: 0;
+}
+.ProfileDescriptor:before{
+    content: "|";
+    padding: 0 10px;
+}
+#NavBar {
+    position: sticky;
+    margin: 30px 40px 0px 0px;
+    height: 40px;
+    align-items: center;
+    text-align: center;
+    background-color: darkgrey;
 }
 
-.card {
-  padding: 2em;
+#NavBarLeft {
+    height: 100%;
+    float: left;
+}
+#NavBarRight{
+    height:100%;
+    float:right;
 }
 
-.read-the-docs {
-  color: #888;
+#NavBarRight > a > img {
+    max-height: 100%;
+    width: auto;
 }
+#NavBarRight > a > img:hover {
+    background-color: lightcyan;
+}
+
+.NavBarContent {
+    width: 100px;
+    height: 100%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    text-decoration: none;
+    font-size: 1.1em;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.ActiveNav {
+    background-color: lightcyan;
+}
+
+.NavBarContent:hover {
+    color: white;
+}
+.NavBarContent.ActiveNav:hover {
+    color: black;
+}
+
+
+.homeContent{
+    border-style: solid;
+    border-width: 2px;
+    background-color: darkgrey;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+/*#endregion Nav Bar Things*/
+
+/*#region HomePage*/
+#home{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+#leftHome {
+    width: calc(100% - 40px - 300px);
+    min-width: 440px;
+}
+
+#rightHome {
+    width: 300px;
+}
+
+.homeContent{
+    border-style: solid;
+    border-width: 2px;
+    background-color: darkgrey;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.homeContent:last-child{
+    margin-bottom: 0px;
+}
+
+.homeContent ul{
+    list-style-position: inside;
+}
+
+@media screen and (max-width: 1250px) {
+    #portfolio .homeContent {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 860px){
+    #home{
+        flex-direction: column-reverse;
+    }
+    #leftHome, #rightHome{
+        width: 100%;
+    }
+
+    .prev2{
+        color: black;
+    }
+    .row{
+        flex-direction:column-reverse;
+        align-items: stretch;
+    }
+    .slides > img{
+        width: 88%;
+        margin-left:6%;
+    }
+}
+
+.lineBreak {
+    width: 95%;
+    height: 1px;
+    background-color: dimgrey;
+    margin: 6px 0;
+}
+
+/*#endregion HomePage*/
