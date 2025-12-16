@@ -97,8 +97,8 @@ function App() {
               <a href="" class="NavBarContent">Education</a>
             </div>
             <div id="NavBarRight">
-              <a href="https://ra-ivl.itch.io/" target="_blank"><img src="assets/Itchio_ico.png" /></a>
-              <a href="https://www.linkedin.com/in/rainne-won-35289b1ab/" target="_blank"><img src="assets/Linkedin_ico.png" /></a>
+              <a href="https://ra-ivl.itch.io/" target="_blank"><img src="./assets/Itchio_ico.png" /></a>
+              <a href="https://www.linkedin.com/in/rainne-won-35289b1ab/" target="_blank"><img src="./assets/Linkedin_ico.png" /></a>
             </div>
           </div>
         </div>

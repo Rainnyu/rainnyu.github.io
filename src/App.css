@@ -8,7 +8,7 @@
 
 #Banner {
     height: 120px;
-    background-image: url("assets/Banner.png");
+    background-image: url("./assets/Banner.png");
     background-size: cover;
 }
 #HeaderPadding {
