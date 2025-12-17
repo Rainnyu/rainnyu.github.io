@@ -3,6 +3,11 @@ import { useRef, useState } from "react"
 import * as THREE from "three"
 import './App.css'
 
+function GetImgURL(name, ext)
+{
+  return new URL(`../assets/${name}.${ext}`, import.meta.url).href
+}
+
 function CameraControls()
 {
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -82,7 +87,7 @@ function App() {
     </Canvas>
     </div>
     <div style={{position: 'absolute', top: 0, left: 0, width: '100%', color: 'black', zIndex:1}}>
-      <div id="Banner">
+      <div id="Banner" style={{backgroundImage:`url(${GetImgURL('Banner', 'png')})`}}>
         <div id="HeaderPadding">
           <h1 id="NamePlate">Rainne Won Yu Xuan</h1>
           <div>
@@ -97,8 +102,8 @@ function App() {
               <a href="" class="NavBarContent">Education</a>
             </div>
             <div id="NavBarRight">
-              <a href="https://ra-ivl.itch.io/" target="_blank"><img src="./assets/Itchio_ico.png" /></a>
-              <a href="https://www.linkedin.com/in/rainne-won-35289b1ab/" target="_blank"><img src="./assets/Linkedin_ico.png" /></a>
+              <a href="https://ra-ivl.itch.io/" target="_blank"><img src={GetImgURL('Itchio_ico', 'png')} /></a>
+              <a href="https://www.linkedin.com/in/rainne-won-35289b1ab/" target="_blank"><img src={GetImgURL("Linkedin_ico", "png")} /></a>
             </div>
           </div>
         </div>
