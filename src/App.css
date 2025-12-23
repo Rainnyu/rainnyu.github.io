@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
 }
 
 /*#region Nav Bar Things*/
@@ -9,6 +11,8 @@
 #Banner {
     height: 120px;
     background-size: cover;
+    opacity: 0.95;
+    margin-bottom: -30px
 }
 #HeaderPadding {
     margin: 0px 40px 0px 40px;
@@ -35,16 +39,22 @@
 }
 #NavBar {
     position: sticky;
-    margin-top: 30px;
+    top: 0;
     height: 40px;
-    align-items: center;
-    text-align: center;
-    background-color: darkgrey;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background-color: transparent;
+    z-index: 100;
 }
 
 #NavBarLeft {
-    height: 100%;
-    float: left;
+    display: flex;
+}
+#NavFiller
+{
+    flex-grow: 1;
+    background-color: darkgrey;
 }
 #NavBarRight{
     height:100%;
@@ -54,14 +64,15 @@
 #NavBarRight > a > img {
     max-height: 100%;
     width: auto;
+    background-color: darkgrey;
 }
 #NavBarRight > a > img:hover {
-    background-color: lightcyan;
+    background-color: rgba(224, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
 }
 
 .NavBarContent {
     width: 100px;
-    height: 100%;
     float: left;
     display: flex;
     justify-content: center;
@@ -71,17 +82,22 @@
     font-size: 1.1em;
     user-select: none;
     -webkit-user-select: none;
+    background-color: darkgrey;
 }
 
 .ActiveNav {
-    background-color: lightcyan;
+    background-color: rgba(224, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-weight: bold;
+    color: white;
 }
 
 .NavBarContent:hover {
-    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid lightcyan;
 }
 .NavBarContent.ActiveNav:hover {
-    color: black;
+    border-bottom: 2px solid lightcyan;
 }
 
 
@@ -89,6 +105,7 @@
     border-style: solid;
     border-width: 2px;
     background-color: darkgrey;
+    opacity: 0.90;
     padding: 10px;
     margin-bottom: 20px;
 }
@@ -108,6 +125,10 @@
 
 #rightHome {
     width: 300px;
+}
+
+#fullHome {
+    width: 100%;
 }
 
 .homeContent{
