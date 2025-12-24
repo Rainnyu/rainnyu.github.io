@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  scroll-padding-top: 50px;
+  scroll-padding-top: 
 }
 
 /*#region Nav Bar Things*/
@@ -99,16 +99,6 @@
 .NavBarContent.ActiveNav:hover {
     border-bottom: 2px solid lightcyan;
 }
-
-
-.homeContent{
-    border-style: solid;
-    border-width: 2px;
-    background-color: darkgrey;
-    opacity: 0.90;
-    padding: 10px;
-    margin-bottom: 20px;
-}
 /*#endregion Nav Bar Things*/
 
 /*#region HomePage*/
@@ -134,7 +124,7 @@
 .homeContent{
     border-style: solid;
     border-width: 2px;
-    background-color: darkgrey;
+    background-color: rgba(224, 255, 255, 0.5);
     padding: 10px;
     margin-bottom: 20px;
 }
@@ -183,3 +173,35 @@
 }
 
 /*#endregion HomePage*/
+
+.SkillsRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px 0px;
+}
+
+.SkillItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+.SkillItem:hover{
+    border-bottom: 2px solid var(--hover-color,);
+}
+.SkillItem p{
+    margin: 20px 0 10px 0;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+}
+.SkillItem img{
+    max-height: 60px;
+    width: auto;
+    
+}
