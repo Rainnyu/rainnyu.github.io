@@ -322,6 +322,15 @@ h2 {
     .ProjCardImg {
         margin-bottom: 20px;
     }
+    .ProjCardTags{
+        justify-content: center;
+    }
+    .ProjCardTags.ProjCardRev{
+        justify-content: center;
+    }
+    .ProjCardTags.ListTags{
+        justify-content: flex-start;
+    }
 }
 /*#endregion Projects*/
 

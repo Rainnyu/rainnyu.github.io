@@ -147,9 +147,9 @@ function BouncingText({fontPath})
     mesh.position.x += vel.current[0];
     mesh.position.y += vel.current[1];
     // X-Axis Collision
-    if (mesh.position.x > viewport.width / 2 - 2.5 || mesh.position.x < -viewport.width / 2 + 2.5) {
+    if (mesh.position.x > viewport.width / 2 - 1.25 || mesh.position.x < -viewport.width / 2 + 1.25) {
       vel.current[0] = -vel.current[0]; // FIX: Change velocity -> vel
-      mesh.position.x = Math.sign(mesh.position.x) * (viewport.width / 2 - 2.5 - 0.1);
+      mesh.position.x = Math.sign(mesh.position.x) * (viewport.width / 2 - 1.25 - 0.1);
       handleCollision();
     }
     // Y-Axis Collision
@@ -389,7 +389,7 @@ const [activeSection, setActiveSection] = useState('Home');
                     <div className="TimelineData">{item.period}</div>
                     <h3>{item.company}</h3>
                     <h4>{item.role}</h4>
-                    <div className="ProjCardTags">
+                    <div className="ProjCardTags ListTags">
                         {item.techStack.map((tag, tagIndex) => (
                           <span key={tagIndex} className="ProjTag">{tag}</span>
                         ))}
