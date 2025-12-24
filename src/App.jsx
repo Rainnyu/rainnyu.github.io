@@ -1,10 +1,50 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useRef, useState, useEffect } from "react"
 import { Text3D, Center } from "@react-three/drei"
+import { motion } from "framer-motion"
 import * as THREE from "three"
 import './App.css'
 
 import fontPath from '../assets/Fonts/helvetiker_regular.typeface.json'
+
+const skillsData = [
+  { name: "C++", file: "C++_Logo", color: "#00599C" },
+  { name: "C", file: "C_Logo", color: "#00599C" },
+  { name: "C#", file: "CSharp_Logo", color: "#36058F" },
+  { name: "VS 2022", file: "Visual_Studio_2022_Logo", color: "#5C2D91" },
+  { name: "Git", file: "Git_Logo", color: "#F05032" },
+  { name: "GitHub", file: "GitHub_Logo", color: "#000000" },
+  { name: "Unity", file: "Unity_Logo", color: "#000000" },
+  { name: "HTML", file: "HTML5_Logo", color: "#E34C26" },
+  { name: "JavaScript", file: "JavaScript_Logo", color: "#F7DF1E" },
+  { name: "CSS", file: "CSS_Logo", color: "#623094" },
+  { name: "Firebase", file: "Firebase_icon", color: "#FFCA28" },
+  { name: "React", file: "React_Logo", color: "#61DAFB" },
+  { name: "Vite", file: "Vitejs_Logo", color: "#646CFF" },
+];
+const projectsData = [
+  { 
+    title: "Custom 2D Game Engine", 
+    desc: "A C++ game engine featuring deferred shading and ECS architecture.\nHandled the rendering pipeline using techniques such as:\nDeferred Shading, Order Independent Transparancy, Batching and Instancing\nFeatured in Mid-Autumn Festival 2025 @ West Coast.", 
+    tags: ["C++", "OpenGL", "GLSL"],
+    image: "SugarStrike_Home", // You need to add these images to your assets!
+    link: "https://github.com/Gideonnf/TeamCarmicah" 
+  },
+  { 
+    title: "Global Game Jam 2024", 
+    desc: "A 3D game w/ multiplayer PvP made for Global Game Jam using Unity.\nHandled the maze generation and coordination with artist to import assets.", 
+    tags: ["Unity", "C#"],
+    image: "BuffBoaties_Tumbnail",
+    link: "https://gideonnf.itch.io/cuties-buffies"
+  },
+  { 
+    title: "This website!", 
+    desc: "A very real thing\nTrust me! It's real", 
+    tags: ["Html", "CSS", "JavaScript", "React", "Three.js", "Vite"],
+    image: "",
+    link: "https://rainnyu.github.io/"
+  }
+];
 
 function GetImgURL(name, ext)
 {
@@ -30,7 +70,7 @@ function CameraControls()
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
   useFrame((state) => {
     const scrollY = window.scrollY;
-    const targetY = -(maxScroll > 0 ? scrollY / maxScroll : 0) * 5;
+    const targetY = -(maxScroll > 0 ? scrollY / maxScroll : 0) * 10;
 
     state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.1);
     });
@@ -103,21 +143,6 @@ function CubeSpawner({count})
 
 function App() {
 const [activeSection, setActiveSection] = useState('Home');
-const skillsData = [
-  { name: "C++", file: "C++_Logo", color: "#00599C" },
-  { name: "C", file: "C_Logo", color: "#00599C" },
-  { name: "C#", file: "CSharp_Logo", color: "#36058F" },
-  { name: "VS 2022", file: "Visual_Studio_2022_Logo", color: "#5C2D91" },
-  { name: "Git", file: "Git_Logo", color: "#F05032" },
-  { name: "GitHub", file: "GitHub_Logo", color: "#000000" },
-  { name: "Unity", file: "Unity_Logo", color: "#000000" },
-  { name: "HTML", file: "HTML5_Logo", color: "#E34C26" },
-  { name: "JavaScript", file: "JavaScript_Logo", color: "#F7DF1E" },
-  { name: "CSS", file: "CSS_Logo", color: "#623094" },
-  { name: "Firebase", file: "Firebase_icon", color: "#FFCA28" },
-  { name: "React", file: "React_Logo", color: "#61DAFB" },
-  { name: "Vite", file: "Vitejs_Logo", color: "#646CFF" },
-];
 
   useEffect(()=>{
     const handleScroll = () => {
@@ -142,7 +167,7 @@ const skillsData = [
   return (
     <>
     <div style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%'}}>
-    <Canvas eventSource={document.body} eventPrefix="client">
+    <Canvas eventSource={document.body} eventPrefix="client" dpr={[1, 1]}>
       <color attach="background" args={['black']} />
       <ambientLight intensity={0.05} />
       <MouseLight />
@@ -188,20 +213,25 @@ const skillsData = [
           <div className="homeContent">
             <h2>About Me</h2>
             <div className="lineBreak"></div>
-            <h4>Game development student @ SIT in Real-Time Interactive Simulation Degree. </h4>
-            <h4>Looking for a 1 year credit-brearing Internship</h4>
+            <div className="TxtCenter">  
+              <h4>Game development student @ SIT in Real-Time Interactive Simulation Degree. </h4>
+              <h4>Looking for a 1 year credit-brearing Internship</h4>
+            </div>
             <br/>
-            <Canvas eventSource={document.body} eventPrefix="client">
+              {/*
+            <Canvas eventSource={document.body} eventPrefix="client" style={{width: '100%', height: '350px'}}>
               <color attach="background" args={['black']} />
               <CameraControls />
               <directionalLight position={[0, 0, 1]} intensity={1.0}/>
-              <Center top left>
-                <Text3D font={fontPath} size={0.75}>
-                  {"Peko"}
-                  <meshStandardMaterial/>
+              <Center>
+                <Text3D font={fontPath} size={0.75} 
+                anchorX="center" anchorY="middle" textAlign="center">
+                  {"Pain Peko"}
+                  <meshStandardMaterial color={"#beeeef"}/>
                 </Text3D>
               </Center>
             </Canvas>
+                */}
             <br/>
             <h2>Skills</h2>
             <div className="lineBreak"></div>
@@ -219,18 +249,44 @@ const skillsData = [
           </div>
           <div className="homeContent" id="Section-Projects">
             <h2>Projects</h2>
-            <p>
-              <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-              <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-              <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-              End of Line.
-            </p>
+            <div className="lineBreak"></div>
+            <div className="ProjectsGrid">
+              {projectsData.map((project, index) => {
+                const isEven = index % 2 === 0;
+                return(
+                  <motion.div key={index} className={`ProjCard ${isEven ? 'ProjCardRev' : ''}`}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{opacity: 1, y: 0}}
+                    whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                    viewport={{once:false, amount:0.1, margin: "-100px 0px 0px 0px"}}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                    <div className="ProjCardImg">
+                      <img src={GetImgURL(project.image, 'png')} alt={`${project.title} Thumbnail`} />
+                    </div>
+                    <div className="ProjCardContent">
+                      <h3>{project.title}</h3>
+                      <p>{project.desc}</p>
+                      <div className={`ProjCardTags ${isEven ? 'ProjCardRev' : ''}`}>
+                        {project.tags.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="ProjTag">{tag}</span>
+                        ))}
+                      </div>
+                      <a href={project.link} target="_blank" className="ProjCardLink">View Project</a>
+                    </div>
+                  </motion.div>
+                )})}
+            </div>
           </div>
           <div className="homeContent" id="Section-Education">
             <h2>Education</h2>
-            <h3>Digipen Institute of Technology - Real Time Interactive Simulation GPA: 4.7</h3>
-            <h4>Provost List 2024</h4>
-            <p>Worked as a Teaching Assistant from Fall 2024 to Present</p>
+            <div className="lineBreak"></div>
+            <div className="TxtCenter">
+              <h3>Digipen Institute of Technology - Real Time Interactive Simulation GPA: 4.7</h3>
+              <h4>Provost List 2024</h4>
+              <p>Worked as a Teaching Assistant from Fall 2024 to Present</p>
+            </div>
+            <br /> <br />
           </div>
           <p>
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
