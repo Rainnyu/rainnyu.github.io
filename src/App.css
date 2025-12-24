@@ -1,13 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+    --main-col: 233, 98, 105;
+    --sub-col: 255, 233, 233;
+    --p-col: 200, 200, 200;
+
+    --back-col:  33, 33, 33;
+    --back2-col: 169, 169, 169;
+    --contrast-back-col: 0, 0, 0;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
   scroll-padding-top: 50px;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-h2 {
+h1 {
     text-align: center;
+    color: rgb(var(--main-col));
+}
+p{
+    color: rgb(var(--sub-col));
 }
 
 .TxtCenter {
@@ -32,10 +49,10 @@ h2 {
 }
 
 #NamePlate {
-    color: white;
+    text-align: left;
 }
 .ProfileDescriptor{
-    color:lightgrey;
+    color: rgb(var(--sub-col));
 }
 .ProfileDescriptor:first-child:before {
     content: "";
@@ -62,7 +79,7 @@ h2 {
 #NavFiller
 {
     flex-grow: 1;
-    background-color: darkgrey;
+    background-color: rgb(var(--back2-col));
 }
 #NavBarRight{
     height:100%;
@@ -72,10 +89,10 @@ h2 {
 #NavBarRight > a > img {
     max-height: 100%;
     width: auto;
-    background-color: darkgrey;
+    background-color: rgb(var(--back2-col));
 }
 #NavBarRight > a > img:hover {
-    background-color: rgba(224, 255, 255, 0.5);
+    background-color: rgba(var(--back2-col), 0.3);
     backdrop-filter: blur(5px);
 }
 
@@ -85,102 +102,27 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: black;
+    color: rgb(var(--contrast-back2-col));
     text-decoration: none;
     font-size: 1.1em;
     user-select: none;
     -webkit-user-select: none;
-    background-color: darkgrey;
+    background-color: rgb(var(--back2-col));
 }
 
 .ActiveNav {
-    background-color: rgba(224, 255, 255, 0.3);
+    background-color: rgba(var(--back2-col), 0.3);
     backdrop-filter: blur(5px);
     font-weight: bold;
-    color: white;
+    color: rgb(var(--main-col));
 }
 
 .NavBarContent:hover {
     font-weight: bold;
-    border-bottom: 2px solid lightcyan;
-}
-.NavBarContent.ActiveNav:hover {
-    border-bottom: 2px solid lightcyan;
+    border-bottom: 2px solid rgb(var(--main-col));
 }
 /*#endregion Nav Bar Things*/
 
-/*#region HomePage*/
-#home{
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-}
-
-#leftHome {
-    width: calc(100% - 40px - 300px);
-    min-width: 440px;
-}
-
-#rightHome {
-    width: 300px;
-}
-
-#fullHome {
-    width: 100%;
-}
-
-.homeContent{
-    border-style: solid;
-    border-width: 2px;
-    background-color: rgba(224, 255, 255, 0.5);
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.homeContent:last-child{
-    margin-bottom: 0px;
-}
-
-.homeContent ul{
-    list-style-position: inside;
-}
-
-@media screen and (max-width: 1250px) {
-    #portfolio .homeContent {
-        width: 100%;
-    }
-
-}
-
-@media screen and (max-width: 860px){
-    #home{
-        flex-direction: column-reverse;
-    }
-    #leftHome, #rightHome{
-        width: 100%;
-    }
-
-    .prev2{
-        color: black;
-    }
-    .row{
-        flex-direction:column-reverse;
-        align-items: stretch;
-    }
-    .slides > img{
-        width: 88%;
-        margin-left:6%;
-    }
-}
-
-.lineBreak {
-    width: 100%;
-    height: 1px;
-    background-color: dimgrey;
-    margin: 6px 0;
-}
-
-/*#endregion HomePage*/
 /*#region Skills*/
 .SkillsRow{
     display: flex;
@@ -228,8 +170,8 @@ h2 {
     flex-direction: row;
     align-items: center;
     gap: 40px;
-    background-color: rgba(0,0,0,0.3);
-    border: 1px solid #444;
+    background-color: rgba(var(--back-col), 0.3);
+    border: 1px solid rgb(var(--back-col));
     border-radius: 15px;
     padding: 20px;
     overflow: hidden;
@@ -240,14 +182,14 @@ h2 {
     text-align: right;
 }
 .ProjCard:hover{
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border-color: lightcyan;
+    box-shadow: 0 4px 15px rgba(var(--back-col), 0.3);
+    border-color: rgb(var(--main-col));
 }
 .ProjCardImg{
     flex: 1;
     height: 100%;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(var(--back-col), 0.5);
 }
 .ProjCardImg img{
     width: 100%;
@@ -266,11 +208,11 @@ h2 {
 }
 .ProjCardContent h3{
     margin-bottom: 10px;
-    color: lightcyan;
+    color: rgb(var(--main-col));
 }
 .ProjCardContent p{
     font-size: 0.9rem;
-    color: #ddd;
+    color: rgb(var(--p-col));
     margin-bottom: 15px;
     line-height: 1.4;
     white-space: pre-wrap;
@@ -285,12 +227,12 @@ h2 {
     justify-content: flex-end;
 }
 .ProjTag{
-    background-color: #333;
-    color: white;
+    background-color: rgb(var(--back-col));
+    color: rgb(var(--main-col));
     font-size: 0.75em;
     padding: 4px 8px;
     border-radius: 4px;
-    border: 1px solid #555;
+    border: 1px solid rgb(var(--back-col));
 }
 .ProjCardLink{
     display: block;
@@ -298,16 +240,16 @@ h2 {
     padding: 10px;
     text-align: center;
     background-color: transparent;
-    border: 1px solid lightcyan;
-    color: lightcyan;
+    border: 1px solid rgb(var(--main-col));
+    color: rgb(var(--main-col));
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
     transition: all 0.2s;
 }
 .ProjCardLink:hover{
-    background-color: lightcyan;
-    color: black;
+    background-color: rgb(var(--main-col));
+    color: rgb(var(--back-col-col));
 }
 @media (max-width: 768px) {
     .ProjCard, .ProjCard.ProjCardRev {
@@ -339,7 +281,7 @@ h2 {
     position: relative;
     margin-left: 20px;
     padding-left: 20px;
-    border-left: 2px solid lightcyan;
+    border-left: 2px solid rgb(var(--main-col));
 }
 .TimelineItem{
     position: relative;
@@ -354,41 +296,41 @@ h2 {
     top: 0;
     width: 20px;
     height: 20px;
-    background-color: lightcyan;
+    background-color: rgb(var(--p-col));
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid rgb(var(--main-col));
     transition: background-color 0.3s ease;
 }
 .TimelineItem:hover .TimelineDot{
-    background-color: cyan;
+    background-color: rgb(var(--main-col));
 }
 .TimelineContent h3{
     margin: 0;
-    color: lightcyan;
+    color: rgb(var(--main-col));
     font-size: 1.2rem;
 }
 .TimelineContent h4{
     margin: 5px 0;
-    color: white;
+    color: rgb(var(--sub-col));
     font-weight: normal;
 }
 .TimelineData{
    display: inline-block;
-   background-color: rgba(224, 255, 255, 0.1);
+   background-color: rgba(var(--main-col), 0.1);
    padding: 2px 15px;
    border-radius: 4px;
    font-size: 1rem;
-   color: white;
+   color: rgb(var(--sub-col));
    margin-bottom: 8px;
    font-family: monospace;
 }
 .TimelineGPA{
     display: block;
     font-weight: bold;
-    color: white;
+    color: rgb(var(--sub-col));
 }
 .TimelineListItem{
     margin-bottom: 5px;
-    color: #e3e7e7;
+    color: rgb(var(--p-col));
 }
 /*endregion Timeline*/

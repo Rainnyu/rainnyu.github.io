@@ -10,6 +10,14 @@ import fontPath from '../assets/Fonts/helvetiker_regular.typeface.json'
 const PHRASES = ["Peko", "Hello", "world!", "DvD", `#404`];
 const COLORS = ["beeeeef", "#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3"];
 
+const ProfileDescriptor =[
+  "Aspiring Software Engineer",
+  "Game Development Student",
+  "Peko",
+  "Does C++",
+  "Needs Help"
+]
+
 const skillsData = [
   { name: "C++", file: "C++_Logo", color: "#00599C" },
   { name: "C", file: "C_Logo", color: "#00599C" },
@@ -91,7 +99,6 @@ function GetLogoURL(name, ext)
   return new URL(`../assets/Logos/${name}.${ext}`, import.meta.url).href
 }
 
-
 function TopFunc()
 {
   window.scrollTo({
@@ -100,6 +107,39 @@ function TopFunc()
   });
 }
 
+function Typewriter({words, wait=2000})
+{
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+  const [blink, setBlink] = useState(true);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setBlink((prev) => !prev);
+    }, 500);
+    return ()=> clearTimeout(timeout);
+  }, [blink]);
+  
+  useEffect(() => {
+    if(subIndex === words[index].length + 1 && !reverse)
+    {
+      const timeout = setTimeout(() => setReverse(true), wait);
+      return () => clearTimeout(timeout);
+    }
+    if(subIndex === 0 && reverse)
+    {
+      setReverse(false);
+      setIndex((prev)=>(prev + 1) % words.length);
+      return;
+    }
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, reverse ? 75 : 150);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, words, wait]);
+  return <span>{`${words[index].substring(0, subIndex)}${blink ? "|" : "\u00A0"}`}</span>;
+}
 
 function CameraControls()
 {
@@ -247,9 +287,9 @@ const [activeSection, setActiveSection] = useState('Home');
     <div style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%'}}>
     <Canvas eventSource={document.body} eventPrefix="client" dpr={[1, 1]}>
       <color attach="background" args={['black']} />
-      <ambientLight intensity={0.05} />
       <MouseLight />
       {/*
+      <ambientLight intensity={0.05} />
       <CameraControls />
       <CubeSpawner count={100}/>
       */}
@@ -257,17 +297,17 @@ const [activeSection, setActiveSection] = useState('Home');
         position={[0,0,-1]}
         scale={[100,100,100]}>
         <planeGeometry/>
-        <meshStandardMaterial color ={"lightcyan"} />
+        <meshStandardMaterial color ={[1, 1, 1]} />
       </mesh>
     </Canvas>
     </div>
-    <div style={{position: 'absolute', top: 0, left: 0, width: '100%', color: 'black', zIndex:1}}>
+    <div style={{position: 'absolute', top: 0, left: 0, width: '100%', zIndex:1}}>
       <div id="Banner" style={{backgroundImage:`url(${GetImgURL('Banner', 'png')})`}}>
         <div id="HeaderPadding">
           <h1 id="NamePlate">Rainne Won Yu Xuan</h1>
           <div>
             <span className="ProfileDescriptor">SG</span>
-            <span className="ProfileDescriptor">Aspiring Software Engineer</span>
+            <span className="ProfileDescriptor"><Typewriter words={ProfileDescriptor} /></span>
           </div>
         </div>
       </div>
@@ -287,135 +327,129 @@ const [activeSection, setActiveSection] = useState('Home');
       </div>
 
       <div id="BodyPadding">
-      <div id="home">
-        <div id="fullHome">
-          <div className="homeContent">
-            <h2>About Me</h2>
-            <div className="lineBreak"></div>
-            <div className="TxtCenter">  
-              <h4>Game development student @ SIT in Real-Time Interactive Simulation Degree. </h4>
-              <h4>Looking for a 1 year credit-brearing Internship</h4>
-            </div>
-            <br/>
-            <Canvas eventSource={document.body} eventPrefix="client" style={{width: '100%', height: '350px'}}>
-              <color attach="background" args={['black']} />
-              {/*
-              <CameraControls />
-              */}
-              <directionalLight position={[0, 0, 1]} intensity={1.0}/>
-              <BouncingText fontPath={fontPath} />
-            </Canvas>
-            <br/>
-            <h2>Skills</h2>
-            <div className="lineBreak"></div>
-            <div className="SkillsRow">
-              {skillsData.map((skill, index) => (
-                <div key={index} className="SkillItem" style={{ "--hover-color": skill.color }}>
-                  <img 
-                    src={GetLogoURL(skill.file, 'png')} 
-                    alt={`${skill.name} Logo`} 
-                  />
-                  <p>{skill.name}</p>
-                </div>
-              ))}
-            </div>
+        <div>
+          <h1>About Me</h1>
+          <div className="lineBreak"></div>
+          <div className="TxtCenter">  
+            <p>Game development student @ SIT in Real-Time Interactive Simulation Degree. </p>
+            <p>Looking for a 1 year credit-brearing Internship</p>
           </div>
-          <div className="homeContent" id="Section-Projects">
-            <h2>Projects</h2>
-            <div className="lineBreak"></div>
-            <div className="ProjectsGrid">
-              {projectsData.map((project, index) => {
-                const isEven = index % 2 === 0;
-                return(
-                  <motion.div key={index} className={`ProjCard ${isEven ? 'ProjCardRev' : ''}`}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{opacity: 1, y: 0}}
-                    whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                    viewport={{once:false, amount:0.1, margin: "-100px 0px 0px 0px"}}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                    <div className="ProjCardImg">
-                      <img src={GetImgURL(project.image, 'png')} alt={`${project.title} Thumbnail`} />
-                    </div>
-                    <div className="ProjCardContent">
-                      <h3>{project.title}</h3>
-                      <p>{project.desc}</p>
-                      <div className={`ProjCardTags ${isEven ? 'ProjCardRev' : ''}`}>
-                        {project.tags.map((tag, tagIndex) => (
-                          <span key={tagIndex} className="ProjTag">{tag}</span>
-                        ))}
-                      </div>
-                      <a href={project.link} target="_blank" className="ProjCardLink">View Project</a>
-                    </div>
-                  </motion.div>
-                )})}
-            </div>
-          </div>
-          <div className="homeContent" id="Section-Education">
-            <h2>Education</h2>
-            <div className="lineBreak"></div>
-            <div className="TimelineContainer">
-              {educationData.map((item, index) => (
-                <div key={index} className="TimelineItem">
-                  <div className="TimelineDot"></div>
-
-                  <div className="TimelineContent">
-                    <div className="TimelineData">{item.year}</div>
-                    <h3>{item.school}</h3>
-                    <h4>{item.degree}</h4>
-                    <span className="TimelineGPA">{item.gpa}</span>
-                    <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
-                      {item.desc.map((point, pointIndex) => (
-                        <li key={pointIndex} className="TimelineListItem">
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <br /> <br />
-          </div>
-          <div className="homeContent" id="Section-Work">
-            <h2>Work</h2>
-            <div className="lineBreak"></div>
-            <div className="TimelineContainer">
-              {workData.map((item, index) => (
-                <div key={index} className="TimelineItem">
-                  <div className="TimelineDot"></div>
-
-                  <div className="TimelineContent">
-                    <div className="TimelineData">{item.period}</div>
-                    <h3>{item.company}</h3>
-                    <h4>{item.role}</h4>
-                    <div className="ProjCardTags ListTags">
-                        {item.techStack.map((tag, tagIndex) => (
-                          <span key={tagIndex} className="ProjTag">{tag}</span>
-                        ))}
-                    </div>
-                    <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
-                      {item.desc.map((point, pointIndex) => (
-                        <li key={pointIndex} className="TimelineListItem">
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          <div className="TxtCenter">
-            <p style={{color: 'white'}}>Thx for scrolling to the end :)</p>
-            <p style={{color: 'white'}}>Contact me: t.rainii375@gmail.com</p>
+          <br/>
+          <Canvas eventSource={document.body} eventPrefix="client" style={{width: '100%', height: '350px'}} dpr={[1, 1]}>
+            <color attach="background" args={['black']} />
+            {/*
+            <CameraControls />
+            */}
+            <directionalLight position={[0, 0, 1]} intensity={1.0}/>
+            <BouncingText fontPath={fontPath} />
+          </Canvas>
+          <br/>
+          <h1>Skills</h1>
+          <div className="lineBreak"></div>
+          <div className="SkillsRow">
+            {skillsData.map((skill, index) => (
+              <div key={index} className="SkillItem" style={{ "--hover-color": skill.color }}>
+                <img 
+                  src={GetLogoURL(skill.file, 'png')} 
+                  alt={`${skill.name} Logo`} 
+                />
+                <p>{skill.name}</p>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+        <div id="Section-Projects">
+          <h1>Projects</h1>
+          <div className="lineBreak"></div>
+          <div className="ProjectsGrid">
+            {projectsData.map((project, index) => {
+              const isEven = index % 2 === 0;
+              return(
+                <motion.div key={index} className={`ProjCard ${isEven ? 'ProjCardRev' : ''}`}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{opacity: 1, y: 0}}
+                  whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                  viewport={{once:false, amount:0.1, margin: "-100px 0px 0px 0px"}}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                  <div className="ProjCardImg">
+                    <img src={GetImgURL(project.image, 'png')} alt={`${project.title} Thumbnail`} />
+                  </div>
+                  <div className="ProjCardContent">
+                    <h3>{project.title}</h3>
+                    <p>{project.desc}</p>
+                    <div className={`ProjCardTags ${isEven ? 'ProjCardRev' : ''}`}>
+                      {project.tags.map((tag, tagIndex) => (
+                        <span key={tagIndex} className="ProjTag">{tag}</span>
+                      ))}
+                    </div>
+                    <a href={project.link} target="_blank" className="ProjCardLink">View Project</a>
+                  </div>
+                </motion.div>
+              )})}
+          </div>
+        </div>
+        <div id="Section-Education">
+          <h1>Education</h1>
+          <div className="lineBreak"></div>
+          <div className="TimelineContainer">
+            {educationData.map((item, index) => (
+              <div key={index} className="TimelineItem">
+                <div className="TimelineDot"></div>
+                <div className="TimelineContent">
+                  <div className="TimelineData">{item.year}</div>
+                  <h3>{item.school}</h3>
+                  <h4>{item.degree}</h4>
+                  <span className="TimelineGPA">{item.gpa}</span>
+                  <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
+                    {item.desc.map((point, pointIndex) => (
+                      <li key={pointIndex} className="TimelineListItem">
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+          <br /> <br />
+        </div>
+        <div id="Section-Work">
+          <h1>Work</h1>
+          <div className="lineBreak"></div>
+          <div className="TimelineContainer">
+            {workData.map((item, index) => (
+              <div key={index} className="TimelineItem">
+                <div className="TimelineDot"></div>
+                <div className="TimelineContent">
+                  <div className="TimelineData">{item.period}</div>
+                  <h3>{item.company}</h3>
+                  <h4>{item.role}</h4>
+                  <div className="ProjCardTags ListTags">
+                      {item.techStack.map((tag, tagIndex) => (
+                        <span key={tagIndex} className="ProjTag">{tag}</span>
+                      ))}
+                  </div>
+                  <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
+                    {item.desc.map((point, pointIndex) => (
+                      <li key={pointIndex} className="TimelineListItem">
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <div className="TxtCenter">
+          <p>Thx for scrolling to the end :)</p>
+          <p>Contact me: t.rainii375@gmail.com</p>
+        </div>
     </div>
   </div>
   </>
