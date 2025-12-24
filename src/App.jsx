@@ -1,7 +1,7 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useRef, useState, useEffect } from "react"
 import { Text3D, Center } from "@react-three/drei"
-import { motion } from "framer-motion"
+import { motion, moveItem } from "framer-motion"
 import * as THREE from "three"
 import './App.css'
 
@@ -25,7 +25,7 @@ const skillsData = [
 const projectsData = [
   { 
     title: "Custom 2D Game Engine", 
-    desc: "A C++ game engine featuring deferred shading and ECS architecture.\nHandled the rendering pipeline using techniques such as:\nDeferred Shading, Order Independent Transparancy, Batching and Instancing\nFeatured in Mid-Autumn Festival 2025 @ West Coast.", 
+    desc: "A C++ game engine from scratch\nHandled the entire rendering pipeline using techniques such as\nDeferred Shading, Order Independent Transparancy, Batching and Instancing\nFeatured in Mid-Autumn Festival 2025 @ West Coast.", 
     tags: ["C++", "OpenGL", "GLSL"],
     image: "SugarStrike_Home", // You need to add these images to your assets!
     link: "https://github.com/Gideonnf/TeamCarmicah" 
@@ -41,8 +41,41 @@ const projectsData = [
     title: "This website!", 
     desc: "A very real thing\nTrust me! It's real", 
     tags: ["Html", "CSS", "JavaScript", "React", "Three.js", "Vite"],
-    image: "",
+    image: "Banner",
     link: "https://rainnyu.github.io/"
+  }
+];
+const educationData = [
+  {
+    school: "DigiPen Institute of Technology Singapore",
+    degree: "B.Sc in Computer Science in Real-Time Interactive Simulation",
+    year: "2023 - Present",
+    gpa: "GPA: 4.7",
+    desc: [
+      "Provost List 2024"
+    ]
+  }
+];
+const workData = [
+  {
+    company: "Digipen Institute of Technology Singapore",
+    role: "Teaching Assistant",
+    period: "Sep 2024 - Present",
+    desc: [
+      "Helped students with coding assignments and projects for various programming modules.",
+      "Explained complex programming concepts in an easy-to-understand manner."
+    ],
+    techStack: ["C", "C++", "OpenGL", "Unity", "C#"]
+  },
+  {
+    company: "Cacani",
+    role: "Student Developer (Part Time)",
+    period: "May 2024 - Aug 2024",
+    desc: [
+      "Work on detection of line segment encapsulation to sovlve closed shape detection issues.",
+      "Implemented curved line selection between line vectors for better user experience."
+    ],
+    techStack: ["C++", "Qt"]
   }
 ];
 
@@ -150,9 +183,12 @@ const [activeSection, setActiveSection] = useState('Home');
 
       const projSt = document.getElementById('Section-Projects');
       const eduSt = document.getElementById('Section-Education');
+      const workSt = document.getElementById('Section-Work');
 
-      if(!projSt || !eduSt) return;
-      if (scrollPosition >= eduSt.offsetTop) 
+      if(!projSt || !eduSt || !workSt) return;
+      if (scrollPosition >= workSt.offsetTop) 
+      { setActiveSection('Work'); }
+      else if (scrollPosition >= eduSt.offsetTop) 
       { setActiveSection('Education'); }
       else if (scrollPosition >= projSt.offsetTop)
       {setActiveSection('Projects');}
@@ -198,6 +234,7 @@ const [activeSection, setActiveSection] = useState('Home');
             <a onClick={TopFunc} style={{cursor: 'pointer'}} className={`NavBarContent ${activeSection === 'Home' ? 'ActiveNav' : ''}`}>Home</a>
             <a href="#Section-Projects" className={`NavBarContent ${activeSection === 'Projects' ? 'ActiveNav' : ''}`}>Projects</a>
             <a href="#Section-Education" className={`NavBarContent ${activeSection === 'Education' ? 'ActiveNav' : ''}`}>Education</a>
+            <a href="#Section-Work" className={`NavBarContent ${activeSection === 'Work' ? 'ActiveNav' : ''}`}>Work</a>
         </div>
         <div id="NavFiller"> </div>
         <div id="NavBarRight">
@@ -281,19 +318,66 @@ const [activeSection, setActiveSection] = useState('Home');
           <div className="homeContent" id="Section-Education">
             <h2>Education</h2>
             <div className="lineBreak"></div>
-            <div className="TxtCenter">
-              <h3>Digipen Institute of Technology - Real Time Interactive Simulation GPA: 4.7</h3>
-              <h4>Provost List 2024</h4>
-              <p>Worked as a Teaching Assistant from Fall 2024 to Present</p>
+            <div className="TimelineContainer">
+              {educationData.map((item, index) => (
+                <div key={index} className="TimelineItem">
+                  <div className="TimelineDot"></div>
+
+                  <div className="TimelineContent">
+                    <div className="TimelineData">{item.year}</div>
+                    <h3>{item.school}</h3>
+                    <h4>{item.degree}</h4>
+                    <span className="TimelineGPA">{item.gpa}</span>
+                    <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
+                      {item.desc.map((point, pointIndex) => (
+                        <li key={pointIndex} className="TimelineListItem">
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
             </div>
             <br /> <br />
           </div>
-          <p>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          </p>
+          <div className="homeContent" id="Section-Work">
+            <h2>Work</h2>
+            <div className="lineBreak"></div>
+            <div className="TimelineContainer">
+              {workData.map((item, index) => (
+                <div key={index} className="TimelineItem">
+                  <div className="TimelineDot"></div>
+
+                  <div className="TimelineContent">
+                    <div className="TimelineData">{item.period}</div>
+                    <h3>{item.company}</h3>
+                    <h4>{item.role}</h4>
+                    <div className="ProjCardTags">
+                        {item.techStack.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="ProjTag">{tag}</span>
+                        ))}
+                    </div>
+                    <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
+                      {item.desc.map((point, pointIndex) => (
+                        <li key={pointIndex} className="TimelineListItem">
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <div className="TxtCenter">
+            <p style={{color: 'white'}}>Thx for scrolling to the end :)</p>
+            <p style={{color: 'white'}}>Contact me: t.rainii375@gmail.com</p>
+          </div>
         </div>
       </div>
     </div>
