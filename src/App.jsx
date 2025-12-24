@@ -1,11 +1,14 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useRef, useState, useEffect } from "react"
 import { Text3D, Center } from "@react-three/drei"
-import { motion, moveItem } from "framer-motion"
+import { motion } from "framer-motion"
 import * as THREE from "three"
 import './App.css'
 
 import fontPath from '../assets/Fonts/helvetiker_regular.typeface.json'
+
+const PHRASES = ["Peko", "Hello", "world!", "DvD", `#404`];
+const COLORS = ["beeeeef", "#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3"];
 
 const skillsData = [
   { name: "C++", file: "C++_Logo", color: "#00599C" },
@@ -128,6 +131,58 @@ function MouseLight()
   return <pointLight ref={lightRef} color="#ffffff" intensity={3.0} decay={1.5} />
 }
 
+function BouncingText({fontPath})
+{
+  const ref = useRef();
+  const {viewport} = useThree();
+
+  const [textIndex, setTextIndex] = useState(0);
+  const [colorIndex, setColorIndex] = useState(0);
+  const vel = useRef([0.025 + Math.random() * 0.025, 0.025 + Math.random() * 0.025]);
+
+  useFrame(() =>{
+    if(!ref.current) return;
+    
+    const mesh = ref.current;
+    mesh.position.x += vel.current[0];
+    mesh.position.y += vel.current[1];
+    // X-Axis Collision
+    if (mesh.position.x > viewport.width / 2 - 2.5 || mesh.position.x < -viewport.width / 2 + 2.5) {
+      vel.current[0] = -vel.current[0]; // FIX: Change velocity -> vel
+      mesh.position.x = Math.sign(mesh.position.x) * (viewport.width / 2 - 2.5 - 0.1);
+      handleCollision();
+    }
+    // Y-Axis Collision
+    if (mesh.position.y > viewport.height / 2 - 0.5 || mesh.position.y < -viewport.height / 2 + 0.5) {
+      vel.current[1] = -vel.current[1]; // FIX: Change velocity -> vel
+      mesh.position.y = Math.sign(mesh.position.y) * (viewport.height / 2 - 0.5 - 0.1);
+      handleCollision();
+    }
+  });
+  const handleCollision = () => {
+    // Pick a random index that isn't the current one
+    let nextText = Math.floor(Math.random() * PHRASES.length);
+    if(nextText === textIndex) nextText = (textIndex + 1) % PHRASES.length;
+
+    // Pick a new color (different from current)
+    let nextColor = Math.floor(Math.random() * COLORS.length);
+    if(nextColor === colorIndex) nextColor = (colorIndex + 1) % COLORS.length;
+
+    setTextIndex(nextText);
+    setColorIndex(nextColor);
+  };
+  return(
+    <group ref={ref}>
+      <Center>
+        <Text3D font={fontPath} size={0.75} height={0.2} curveSegments={12}>
+          {PHRASES[textIndex]}
+          <meshStandardMaterial color={COLORS[colorIndex]} />
+        </Text3D>
+      </Center>
+    </group>
+  );
+}
+
 function Cube({position, size, color})
 {
     const ref = useRef();
@@ -159,19 +214,6 @@ function Cube({position, size, color})
         <meshStandardMaterial color={isHovered ? color : [0.1,0.1,0.1]}/>
       </mesh>
   )
-}
-
-function CubeSpawner({count})
-{
-    const cubes = [];
-    for(let i =0; i < count; i++)
-    {
-        const position = [(Math.random() - 0.5) * 20, Math.random() * 100 - 100, (Math.random() - 0.5) * 2];
-        const size = [Math.random() * 0.5 + 0.5, Math.random() * 0.5 + 0.5, Math.random() * 0.5 + 0.5];
-        const color = [Math.random(), Math.random(), Math.random()];
-        cubes.push(<Cube key={i} position={position} size={size} color={color}/>);
-    }
-    return cubes;
 }
 
 function App() {
@@ -255,20 +297,14 @@ const [activeSection, setActiveSection] = useState('Home');
               <h4>Looking for a 1 year credit-brearing Internship</h4>
             </div>
             <br/>
-              {/*
             <Canvas eventSource={document.body} eventPrefix="client" style={{width: '100%', height: '350px'}}>
               <color attach="background" args={['black']} />
+              {/*
               <CameraControls />
+              */}
               <directionalLight position={[0, 0, 1]} intensity={1.0}/>
-              <Center>
-                <Text3D font={fontPath} size={0.75} 
-                anchorX="center" anchorY="middle" textAlign="center">
-                  {"Pain Peko"}
-                  <meshStandardMaterial color={"#beeeef"}/>
-                </Text3D>
-              </Center>
+              <BouncingText fontPath={fontPath} />
             </Canvas>
-                */}
             <br/>
             <h2>Skills</h2>
             <div className="lineBreak"></div>
