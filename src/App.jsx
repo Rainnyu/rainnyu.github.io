@@ -4,7 +4,8 @@ import { Text3D, Center } from "@react-three/drei"
 import * as THREE from "three"
 import './App.css'
 
-const fontURL = '../assets/Fonts/helvetiker_regular.typeface.json';
+import fontPath from '../assets/Fonts/helvetiker_regular.typeface.json'
+
 function GetImgURL(name, ext)
 {
   return new URL(`../assets/${name}.${ext}`, import.meta.url).href
@@ -195,7 +196,7 @@ const skillsData = [
               <CameraControls />
               <directionalLight position={[0, 0, 1]} intensity={1.0}/>
               <Center top left>
-                <Text3D font={fontURL} size={0.75}>
+                <Text3D font={fontPath} size={0.75}>
                   {"Peko"}
                   <meshStandardMaterial/>
                 </Text3D>
